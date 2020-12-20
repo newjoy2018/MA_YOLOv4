@@ -1,13 +1,14 @@
 #!/bin/sh
 
-#----Check if txt labels exist----
-echo -e "\n------ start preparing ... ------\n"
+
+echo -e "\n------ start preparing... ------\n"
 mkdir dataset
 mv KITMoMa1400 dataset
 mv label_xml2txt.py dataset
 mv randomPick.py dataset
 
-echo -e "\n------ check label files ------\n"
+
+echo -e "\n------ 1. check label files ------\n"
 cd dataset/KITMoMa1400/
 files_txt=$(ls *.txt 2> /dev/null | wc -l)
 files_xml=$(ls *.xml 2> /dev/null | wc -l)
@@ -36,15 +37,13 @@ else
 fi
 
 
-#----divide dataset into training set and test set----
-#----and make corresponding txt lists----
-echo -e "\n------ divide the dataset into training set and test set ------\n"
+echo -e "\n------ 2. divide dataset into training set and test set ------\n"
 cd dataset
 mkdir testJpg
 
 # pick 15% jpgs and move to testJpg, generate testJPGlist.txt
 python randomPick.py
-echo "  randomly picked 15% images and moved to testJpg"
+echo "  15% images are randomly picked and moved to testJpg"
 
 # move correspondant label files to testJpg
 mv testJPGlist.txt moveTxt.sh
@@ -66,8 +65,7 @@ ls -R dataset/testJpg/*.jpg > dataset/testList.txt
 echo "  training set and test set are ready!"
 
 
-#----Clone and make darknet----
-echo -e "\n------ clone the darknet to local and compile ------\n"
+echo -e "\n------ 3. clone the darknet to local and compile ------\n"
 git clone https://codechina.csdn.net/weixin_42412203/darknet.git
 #git clone https://github.com/AlexeyAB/darknet.git
 cd darknet
@@ -81,8 +79,7 @@ make
 cd ..
 
 
-#----Create and modify configuration files----
-echo -e "\n------ prepare configuration files ------\n"
+echo -e "\n------ 4. prepare configuration files ------\n"
 mkdir weights
 cd weights
 # yolov4 pretrained weights for the convolutional layers
@@ -97,6 +94,7 @@ cd cfg
 wget https://raw.githubusercontent.com/newjoy2018/MA_YOLOv4/main/Downloads/cfg/yolov4.cfg
 echo "  cfg file is ready"
 
+
 # Create obj.names to contain class names
 touch obj.names
 list="truck excavator wheel_loader bulldozer dumper person car"
@@ -105,6 +103,7 @@ do
     echo $className >> obj.names
 done
 echo "  class name file is ready"
+
 
 # Create obj.data to contain cfg file directory
 touch obj.data
@@ -118,8 +117,11 @@ echo "  data directory is ready"
 cd ..
 mkdir trainingLog
 
-echo -e "------ Everything is ready. Now start training... ------\n"
+
+echo -e "\n------ 5. Everything is ready. Now start training... ------\n"
 
 ./darknet detector train cfg/obj.data cfg/yolov4.cfg weights/ weights/yolov4.conv.137 -map | tee -a trainingLog/yolov4TrainingLog.txt
+
+
 
 
