@@ -95,7 +95,7 @@ echo "  pretrained weight file is ready"
 # download yolov4 cfg file
 mkdir cfg
 cd cfg
-#debug#wget https://raw.githubusercontent.com/newjoy2018/MA_YOLOv4/main/Downloads/cfg/yolov4.cfg
+#debug#wget https://raw.githubusercontent.com/newjoy2018/MA_YOLOv4/main/Downloads/cfg/yolov4-tiny.cfg
 cp ../yolov4-tiny.cfg ./
 echo "  cfg file is ready"
 
