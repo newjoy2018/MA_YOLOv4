@@ -2,7 +2,7 @@ import os
 import numpy as np 
 
 
-rootdir=os.path.join('/content/drive/My Drive/Project/logAnlysis')
+rootdir=os.path.join('/content/drive/My Drive/Project/logAnlysis/Annotation/')
 write_path=os.path.join('/content/drive/My Drive/Project/logAnlysis/convertedTXTlabel/')
 
 for (dirpath,dirnames,filenames) in os.walk(rootdir):
