@@ -1,0 +1,5 @@
+classes = 7
+train = dataset/trainingList.txt
+valid = dataset/testList.txt
+names = cfg/obj.names
+backup = weights/
