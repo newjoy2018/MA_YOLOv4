@@ -6,7 +6,7 @@ test_jpg = open('./testJPGlist.txt', 'w')
 def randomPick(sourceDir):
     pathDir = os.listdir(sourceDir)
     filenumber=len(pathDir)
-    rate=0.15
+    rate=0.20
     picknumber=int(filenumber*rate)
     sample = random.sample(pathDir, picknumber)
     #print (sample)
